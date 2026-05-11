@@ -1,0 +1,8 @@
+# Copyright (c) Contributors to the aswf-docker Project. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+sources:
+  "4.2.0":
+    x86_64:
+      url: "https://github.com/RenderKit/embree/releases/download/v4.2.0/embree-4.2.0.x86_64.linux.tar.gz"
+      sha256: "f08830011c591657a02ac159d62d472148139a41b4ca3d12b791d642135dbeaf"
