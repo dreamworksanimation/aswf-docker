@@ -19,18 +19,16 @@ jobs:
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-    - name: Set up Python
-      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
-      with:
-        python-version: "3.10"
-
     - name: Install uv
-      uses: astral-sh/setup-uv@e06108dd0aef18192324c70427afc47652e63a82 # v7.5.0
+      uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
       with:
         enable-cache: auto
 
+    - name: Set up Python
+      run: uv python install
+
     - name: Install aswfdocker and dev dependencies
-      run: uv sync --all-extras
+      run: uv sync --all-extras --frozen
 
     - name: Run all pre-commit tests
       run: uv run pre-commit run --all-files
