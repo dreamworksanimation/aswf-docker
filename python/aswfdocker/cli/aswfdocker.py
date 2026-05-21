@@ -244,7 +244,7 @@ def build(
     help="Version of the package to migrate (all versions are migrated by default)",
 )
 @click.option("--dry-run", "-d", is_flag=True)
-def migrate(**kwargs):
+def migrate(**_kwargs):
     pass
 
 
