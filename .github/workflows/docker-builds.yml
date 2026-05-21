@@ -54,7 +54,7 @@ jobs:
         enable-cache: auto
 
     - name: Set up Python
-      run: uv python install
+      run: uv python install 3.10
 
     - name: Install aswfdocker and dependencies
       run: uv sync --frozen
