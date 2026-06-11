@@ -1,5 +1,5 @@
 // Copyright (c) Contributors to the aswf-docker Project. All rights reserved.
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: MIT
 
 #include <embree4/rtcore.h>
 #include <cstdio>

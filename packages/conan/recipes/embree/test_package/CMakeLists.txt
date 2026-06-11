@@ -1,5 +1,5 @@
 # Copyright (c) Contributors to the aswf-docker Project. All rights reserved.
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: MIT
 
 cmake_minimum_required(VERSION 3.8)
 project(test_package LANGUAGES CXX)
