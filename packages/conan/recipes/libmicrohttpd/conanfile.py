@@ -27,6 +27,7 @@ class LibmicrohttpdConan(ConanFile):
         "shared": [True, False],
         "fPIC": [True, False],
         "with_https": [True, False],
+        "with_zlib": [True, False],
         "with_error_messages": [True, False],
         "with_postprocessor": [True, False],
         "with_digest_authentification": [True, False],
@@ -35,7 +36,8 @@ class LibmicrohttpdConan(ConanFile):
     default_options = {
         "shared": False,
         "fPIC": True,
-        "with_https": False,
+        "with_https": False,  # gnutls not available; see CCI note
+        "with_zlib": True,
         "with_error_messages": True,
         "with_postprocessor": True,
         "with_digest_authentification": True,
@@ -58,6 +60,10 @@ class LibmicrohttpdConan(ConanFile):
     def layout(self):
         basic_layout(self, src_folder="src")
 
+    def requirements(self):
+        if self.options.with_zlib:
+            self.requires("zlib/[>=1.2.11 <2]")
+
     def source(self):
         get(self, **self.conan_data["sources"][self.version], strip_root=True)
 
@@ -70,6 +76,7 @@ class LibmicrohttpdConan(ConanFile):
             f"--enable-shared={yes_no(self.options.shared)}",
             f"--enable-static={yes_no(not self.options.shared)}",
             f"--enable-https={yes_no(self.options.with_https)}",
+            f"--enable-zlib={yes_no(self.options.with_zlib)}",
             f"--enable-messages={yes_no(self.options.with_error_messages)}",
             f"--enable-postprocessor={yes_no(self.options.with_postprocessor)}",
             f"--enable-dauth={yes_no(self.options.with_digest_authentification)}",
