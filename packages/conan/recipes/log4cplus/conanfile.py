@@ -1,8 +1,6 @@
 # Copyright (c) Contributors to the conan-center-index Project. All rights reserved.
 # Copyright (c) Contributors to the aswf-docker Project. All rights reserved.
 # SPDX-License-Identifier: MIT
-#
-# From: https://github.com/conan-io/conan-center-index/blob/546f81771602f7a1d2d61b8ef50715afbd6b552d/recipes/log4cplus/all/conanfile.py
 
 from conan import ConanFile
 from conan.errors import ConanInvalidConfiguration

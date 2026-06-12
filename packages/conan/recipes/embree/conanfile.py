@@ -1,8 +1,6 @@
 # Copyright (c) Contributors to the conan-center-index Project. All rights reserved.
 # Copyright (c) Contributors to the aswf-docker Project. All rights reserved.
 # SPDX-License-Identifier: MIT
-#
-# From: https://github.com/conan-io/conan-center-index/blob/07d86dd3417383985563955e5cbca19920e77fdc/recipes/embree/all/conanfile.py
 
 import os
 from conan import ConanFile
