@@ -2030,10 +2030,14 @@ groups:
         - expat
         - fmt
         - gtest
+        - ispc
         - libbacktrace
+        - libcgroup
         - libdeflate
         - libiconv
+        - libmicrohttpd
         - libxcrypt
+        - lua
         - lz4
         - jsoncpp
         - nlohmann_json
@@ -2055,11 +2059,7 @@ groups:
         - freetype
         - glew
         - glfw
-        - ispc
-        - libcgroup
-        - libmicrohttpd
         - log4cplus
-        - lua
         - minizip-ng
       base1-3:
         - boost
