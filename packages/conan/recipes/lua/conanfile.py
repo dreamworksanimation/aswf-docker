@@ -1,8 +1,6 @@
 # Copyright (c) Contributors to the conan-center-index Project. All rights reserved.
 # Copyright (c) Contributors to the aswf-docker Project. All rights reserved.
 # SPDX-License-Identifier: MIT
-#
-# From: https://github.com/conan-io/conan-center-index/blob/69a86578676209faf77da621e2f8efd3479c2e33/recipes/lua/all/conanfile.py
 
 import os
 from conan import ConanFile
