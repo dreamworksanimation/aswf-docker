@@ -595,6 +595,7 @@ versions:
       ASWF_SPDLOG_VERSION: "1.15.3"
       ASWF_TSL_ROBIN_MAP_VERSION: "1.3.0"
       ASWF_OPENUSD_VERSION: "23.08"
+      ASWF_MOONRAY_VERSION: "3.6.0.1"
       ASWF_YAML_CPP_VERSION: "0.8.0"
       ASWF_ZLIB_VERSION: "1.3.1"
       ASWF_ZSTD_VERSION: "1.5.6"
@@ -741,6 +742,7 @@ versions:
       ASWF_SPDLOG_VERSION: "1.15.3"
       ASWF_TSL_ROBIN_MAP_VERSION: "1.3.0"
       ASWF_OPENUSD_VERSION: "24.08"
+      ASWF_MOONRAY_VERSION: "3.6.0.1"
       ASWF_YAML_CPP_VERSION: "0.8.0"
       ASWF_ZLIB_VERSION: "1.3.1"
       ASWF_ZSTD_VERSION: "1.5.6"
@@ -887,6 +889,7 @@ versions:
       ASWF_SPDLOG_VERSION: "1.15.3"
       ASWF_TSL_ROBIN_MAP_VERSION: "1.3.0"
       ASWF_OPENUSD_VERSION: "25.05.01"
+      ASWF_MOONRAY_VERSION: "3.6.0.1"
       ASWF_YAML_CPP_VERSION: "0.8.0"
       ASWF_ZLIB_VERSION: "1.3.1"
       ASWF_ZSTD_VERSION: "1.5.6"
@@ -1034,6 +1037,7 @@ versions:
       ASWF_SPDLOG_VERSION: "1.15.3"
       ASWF_TSL_ROBIN_MAP_VERSION: "1.4.0"
       ASWF_OPENUSD_VERSION: "26.03"
+      ASWF_MOONRAY_VERSION: "3.6.0.1"
       ASWF_YAML_CPP_VERSION: "0.8.0"
       ASWF_ZLIB_VERSION: "1.3.1"
       ASWF_ZSTD_VERSION: "1.5.7"
@@ -1229,6 +1233,11 @@ ci-packages:
     - "2025.6"
     - "2026.4"
   random123:
+    - "2023.3"
+    - "2024.7"
+    - "2025.6"
+    - "2026.4"
+  moonray:
     - "2023.3"
     - "2024.7"
     - "2025.6"
@@ -2000,6 +2009,11 @@ ci-images:
     - "2025-clang19.6"
     - "2026-clang19.4"
     - "2026-clang20.4"
+  moonray:
+    - "2023.3"
+    - "2024.7"
+    - "2025.6"
+    - "2026.4"
 
 groups:
   package:
@@ -2145,6 +2159,8 @@ groups:
         - materialx
       vfx1-6:
         - openusd
+      vfx1-7:
+        - moonray
       review:
         - openrv
   image:
@@ -2171,6 +2187,8 @@ groups:
         - osl
         - openvdb
         - vfxall
+      moonray:
+        - moonray
       review:
         - openrv
 
