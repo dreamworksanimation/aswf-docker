@@ -74,6 +74,7 @@ lz4/*: lz4/1.10.0@{{ org }}/vfx2024
 materialx/*: materialx/1.39.1@{{ org }}/vfx2024
 md4c/*: md4c/0.4.8@{{ org }}/vfx2024
 minizip-ng/*: minizip-ng/4.0.10@{{ org }}/vfx2024
+moonray/*: moonray/3.6.0.1@{{ org }}/vfx2024
 mpdecimal/*: mpdecimal/system@{{ org }}/vfx2024
 mpg123/*: mpg123/system@{{ org }}/vfx2024
 nanobind/*: nanobind/2.11.0@{{ org }}/vfx2024
