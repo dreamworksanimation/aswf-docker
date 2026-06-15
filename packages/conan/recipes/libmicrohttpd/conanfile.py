@@ -61,6 +61,8 @@ class LibmicrohttpdConan(ConanFile):
     def requirements(self):
         if self.options.with_zlib:
             self.requires("zlib/[>=1.2.11 <2]")
+        if self.options.get_safe("with_https"):
+            self.requires("gnutls/[>=3 <4]")
 
     def source(self):
         get(self, **self.conan_data["sources"][self.version], strip_root=True)
