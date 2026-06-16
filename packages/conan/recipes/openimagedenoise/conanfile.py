@@ -48,8 +48,11 @@ class OpenImageDenoiseConan(ConanFile):
         copy(self, "*",
              src=os.path.join(self.build_folder, "include"),
              dst=os.path.join(self.package_folder, "include"))
-        # All shared libs (OIDN core + device plugins + bundled TBB)
-        copy(self, "*.so*",
+        # All OIDN shared libs; deliberately exclude the bundled TBB
+        # (libtbb.so.12) that OIDN ships alongside itself — copying it
+        # to /usr/local would overwrite the base-image TBB 2020.3 symlink
+        # and break packages that rely on tbb::internal::* symbols.
+        copy(self, "libOpenImageDenoise*",
              src=os.path.join(self.build_folder, "lib"),
              dst=os.path.join(self.package_folder, "lib"))
         # ASWF: keep cmake config files
