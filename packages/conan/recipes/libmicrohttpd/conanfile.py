@@ -34,7 +34,7 @@ class LibmicrohttpdConan(ConanFile):
     default_options = {
         "shared": False,
         "fPIC": True,
-        "with_https": False,  # gnutls not available; see CCI note
+        "with_https": True,
         "with_zlib": True,
         "with_error_messages": True,
         "with_postprocessor": True,
