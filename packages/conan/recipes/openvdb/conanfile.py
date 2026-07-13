@@ -176,8 +176,8 @@ class OpenVDBConan(ConanFile):
     def build_requirements(self):
         self.tool_requires("cmake/[>=3.20]")
         if self.options.build_ax:
-             # ASWF: need clang / llvm to build AX, FIXME need better way to determine llvm version
-            self.tool_requires(f"clang/{os.environ['ASWF_OSL_CLANG_VERSION']}@{self.user}/ci_common{os.environ['CI_COMMON_VERSION']}")
+             # ASWF: need clang / llvm to build AX
+            self.tool_requires(self.conf.get("user.aswf:openvdb_clang_ref", check_type=str))
             if self._settings_build.os == "Windows":
                 self.tool_requires("winflexbison/2.5.25")
             else:

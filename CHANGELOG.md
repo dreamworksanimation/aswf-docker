@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file.
 
+# 2026-07-12
+
+- All releases
+  - [ispc built from source instead of binary downloads](https://github.com/AcademySoftwareFoundation/aswf-docker/issues/426)
+    - tight coupling with LLVM means more versions are required to line up with our supported LLVM versions
+    - 2023 : 1.21.0 / LLVM 15
+    - 2024 : 1.24.0 / LLVM 17
+    - 2025 : 1.26.0 / LLVM 18
+    - 2026 : 1.31.0 / LLVM 20
+    - 2027 : 1.31.0 / LLVM 22
+  - [openimagedenoise build frmo source instead of binary downloads](https://github.com/AcademySoftwareFoundation/aswf-docker/issues/428)
+    - disable compute_100 and compute_120 (aka Blackwell) CUDA support in 2.3.3 since in 2023/2024/2025 we have CUDA Toolkit 12.6.3 which is too old
+    - 2023 : 2.3.3
+    - 2024 : 2.3.3
+    - 2025 : 2.5.0
+    - 2026 : 2.5.0
+    - 2027 : 2.5.0
+  - [better clang/llvm version propagation](https://github.com/AcademySoftwareFoundation/aswf-docker/issues/437)
+    - 4 separate packages require clang/llvm to build:
+      - ispc
+      - pyside
+      - openvdb
+      - osl
+    - rather than piggybacking on ASWF_PYSIDE_CLANG_VERSION environment variable, each now has its own ASWF_XXXX_CLANG_MAJOR_VERSION which get injected into packages/conan/settings/profiles/vfx202X as `[conf]` configuration variables
+
 # 2026-07-05
 
 - All releases
