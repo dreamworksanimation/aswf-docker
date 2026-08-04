@@ -50,9 +50,11 @@ else
     # The full_deploy generator copies over generated package files which may contain absolute paths pointing inside the Conan cache
     # in the format:
     # /opt/conan_home/d/b/cpyth64b7fc4516f80/p/...
-    # /opt/conan_home/d/cpyth/64b7fc4516f80/p/...
-    # Replace those by our installation prefix.
-    find $1/full_deploy -name '*.cmake' -exec sed -i -E 's#/opt/conan_home/d/b/[^/]+/p#'"$ESCAPED_PATH"'#g' {} \;
+    # /opt/conan_home/d/cpyth64b7fc4516f80/p/...
+    # Replace those by our installation prefix. The "b/" path component is optional
+    # (present for packages built locally, absent for packages pulled from a binary
+    # cache), so match both forms.
+    find $1/full_deploy -name '*.cmake' -exec sed -i -E 's#/opt/conan_home/d(/b)?/[^/]+/p#'"$ESCAPED_PATH"'#g' {} \;
 
     for INSTALLED_PACKAGE in $(find $1/full_deploy/host -mindepth 1 -maxdepth 1 -printf "%f\n"); do
         # Don't relocate the excluded package
