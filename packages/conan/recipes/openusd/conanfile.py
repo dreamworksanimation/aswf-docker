@@ -186,16 +186,20 @@ class OpenUSDConan(ConanFile):
         tc.variables["PXR_ENABLE_PYTHON_SUPPORT"] = self.options.with_python         # ASWF: build Python support
         tc.variables["PXR_PYTHON_SHEBANG"] = "/usr/bin/env python3"                  # ASWF: don't bake Conan paths into Python scripts
        
-        tc.variables["OPENSUBDIV_LIBRARIES"] = "OpenSubdiv::osdcpu;OpenSubdiv::osdgpu"
+        # ASWF: OpenSubdiv's actual exported cmake targets are camelCase
+        # (OpenSubdiv::osdCPU / OpenSubdiv::osdGPU, see OpenSubdivTargets.cmake) —
+        # using the lowercase names here bakes non-existent target names into the
+        # deployed pxrTargets.cmake, breaking any consumer that links against usd_hdSt.
+        tc.variables["OPENSUBDIV_LIBRARIES"] = "OpenSubdiv::osdCPU;OpenSubdiv::osdGPU"
         tc.variables["OPENSUBDIV_INCLUDE_DIR"] = self.dependencies['opensubdiv'].cpp_info.includedirs[0].replace("\\", "/")
         target_suffix = "" if self.dependencies["opensubdiv"].options.shared else "_static"
-        tc.variables["OPENSUBDIV_OSDCPU_LIBRARY"] = "OpenSubdiv::osdcpu"+target_suffix
+        tc.variables["OPENSUBDIV_OSDCPU_LIBRARY"] = "OpenSubdiv::osdCPU"+target_suffix
         tc.variables["TBB_tbb_LIBRARY"] = "TBB::tbb"
         tc.generate()
 
         tc = CMakeDeps(self)
-        tc.set_property("opensubdiv::osdcpu", "cmake_target_name", "OpenSubdiv::osdcpu")
-        tc.set_property("opensubdiv::osdcpu", "cmake_target_aliases", ["OpenSubdiv::osdcpu_static"])
+        tc.set_property("opensubdiv::osdcpu", "cmake_target_name", "OpenSubdiv::osdCPU")
+        tc.set_property("opensubdiv::osdcpu", "cmake_target_aliases", ["OpenSubdiv::osdCPU_static"])
 
         tc.generate()
 
