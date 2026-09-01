@@ -382,6 +382,51 @@ class TestCachePathRewrite(unittest.TestCase):
                 self.assertEqual(f.read(), original)
 
 
+class TestOpenUSDTargetFixup(unittest.TestCase):
+    def test_conan_and_unqualified_targets_are_replaced(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output = os.path.join(tmp, "output")
+            os.makedirs(os.path.join(output, "lib"))
+            _write(os.path.join(output, "lib", "libboost_python311.so"), b"boost")
+            _write(os.path.join(output, "lib", "libMaterialXCore.so"), b"mtlx")
+            _write(os.path.join(output, "lib", "libPtex.so"), b"ptex")
+            _write(
+                os.path.join(output, "cmake", "pxrTargets.cmake"),
+                "set(BOOST "
+                "CONAN_LIB::boost_Boost_python_boost_python311_RELEASE)\n"
+                "set(MTLX MaterialXCore)\n"
+                "set(PTEX Ptex::Ptex_dynamic)\n",
+            )
+
+            aswf_deploy._fixup_openusd_targets(output)
+
+            with open(
+                os.path.join(output, "cmake", "pxrTargets.cmake"), encoding="utf-8"
+            ) as f:
+                content = f.read()
+            self.assertNotIn("CONAN_LIB::", content)
+            self.assertNotIn("set(MTLX MaterialXCore)", content)
+            self.assertNotIn("set(PTEX Ptex::Ptex_dynamic)", content)
+            self.assertIn(os.path.join(output, "lib", "libboost_python311.so"), content)
+            self.assertIn(os.path.join(output, "lib", "libMaterialXCore.so"), content)
+            self.assertIn(os.path.join(output, "lib", "libPtex.so"), content)
+
+    def test_missing_library_leaves_unknown_conan_target_unchanged(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output = os.path.join(tmp, "output")
+            _write(
+                os.path.join(output, "cmake", "pxrTargets.cmake"),
+                "CONAN_LIB::unknown_library_RELEASE\n",
+            )
+
+            aswf_deploy._fixup_openusd_targets(output)
+
+            with open(
+                os.path.join(output, "cmake", "pxrTargets.cmake"), encoding="utf-8"
+            ) as f:
+                self.assertIn("CONAN_LIB::unknown_library_RELEASE", f.read())
+
+
 class TestCpythonFixup(unittest.TestCase):
     def _setup(self, tmp):
         cache_root = os.path.join(tmp, "conan_home", "d")
