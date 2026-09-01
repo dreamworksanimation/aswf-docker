@@ -431,6 +431,27 @@ class TestOpenUSDTargetFixup(unittest.TestCase):
                 self.assertIn("CONAN_LIB::unknown_library_RELEASE", f.read())
 
 
+class TestBoostSystemFixup(unittest.TestCase):
+    def test_generates_header_only_component_config(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output = os.path.join(tmp, "output")
+            _write(
+                os.path.join(output, "lib", "cmake", "Boost-1.91.0", "BoostConfig.cmake"),
+                "",
+            )
+
+            aswf_deploy._fixup_boost_system(output)
+
+            config = os.path.join(
+                output, "lib", "cmake", "boost_system-1.91.0", "boost_system-config.cmake"
+            )
+            with open(config, encoding="utf-8") as f:
+                content = f.read()
+            self.assertIn("add_library(Boost::system INTERFACE IMPORTED GLOBAL)", content)
+            self.assertIn(f'"{output}/include"', content)
+            self.assertIn("set(boost_system_FOUND TRUE)", content)
+
+
 class TestCpythonFixup(unittest.TestCase):
     def _setup(self, tmp):
         cache_root = os.path.join(tmp, "conan_home", "d")

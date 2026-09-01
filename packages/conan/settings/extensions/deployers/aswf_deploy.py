@@ -14,6 +14,7 @@ with the package to exclude (if any) passed as -c user.aswf:exclude_package=<nam
 
 import fnmatch
 import functools
+import glob
 import hashlib
 import os
 import re
@@ -54,6 +55,7 @@ def deploy(graph, output_folder):
         if _should_skip(dep, exclude_name):
             continue
         _deploy_package(dep, output_folder, cache_root, symlinks, report)
+    _fixup_boost_system(output_folder)
     _fixup_openusd_targets(output_folder)
     report.print_report()
     report.raise_if_errors()
@@ -390,6 +392,50 @@ def _fixup_openusd_targets(output_folder: str) -> None:
 
     with open(targets_path, "w", encoding="utf-8") as f:
         f.write(content)
+
+
+def _fixup_boost_system(output_folder: str) -> None:
+    """Provide Boost.System's config file when the library is header-only.
+
+    Recent Boost releases still have BoostConfig.cmake request a separate
+    boost_system package, although Boost.System no longer installs a library.
+    """
+    boost_dirs = glob.glob(os.path.join(output_folder, "lib", "cmake", "Boost-*"))
+    if not boost_dirs:
+        return
+    boost_version = os.path.basename(boost_dirs[0]).removeprefix("Boost-")
+    component_dir = os.path.join(
+        output_folder, "lib", "cmake", f"boost_system-{boost_version}"
+    )
+    config_path = os.path.join(component_dir, "boost_system-config.cmake")
+    if os.path.isfile(config_path):
+        return
+    os.makedirs(component_dir, exist_ok=True)
+    with open(config_path, "w", encoding="utf-8") as f:
+        f.write(
+            "if(NOT TARGET Boost::system)\n"
+            "  add_library(Boost::system INTERFACE IMPORTED GLOBAL)\n"
+            f'  target_include_directories(Boost::system INTERFACE "{output_folder}/include")\n'
+            "endif()\n"
+            "set(boost_system_FOUND TRUE)\n"
+            f"set(boost_system_VERSION {boost_version})\n"
+        )
+    with open(
+        os.path.join(component_dir, "boost_system-config-version.cmake"),
+        "w",
+        encoding="utf-8",
+    ) as f:
+        f.write(
+            f'set(PACKAGE_VERSION "{boost_version}")\n'
+            "if(PACKAGE_VERSION VERSION_LESS PACKAGE_FIND_VERSION)\n"
+            "  set(PACKAGE_VERSION_COMPATIBLE FALSE)\n"
+            "else()\n"
+            "  set(PACKAGE_VERSION_COMPATIBLE TRUE)\n"
+            "  if(PACKAGE_FIND_VERSION STREQUAL PACKAGE_VERSION)\n"
+            "    set(PACKAGE_VERSION_EXACT TRUE)\n"
+            "  endif()\n"
+            "endif()\n"
+        )
 
 
 def _shebang_pattern(cache_root: str):
