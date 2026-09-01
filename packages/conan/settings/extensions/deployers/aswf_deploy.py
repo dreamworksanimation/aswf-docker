@@ -29,6 +29,10 @@ _OPENUSD_LIBRARY_TARGETS = {
     "Ptex::Ptex_dynamic": "libPtex.so",
     "MaterialXCore": "libMaterialXCore.so",
     "MaterialXFormat": "libMaterialXFormat.so",
+    "OpenSubdiv::osdcpu": "libosdCPU.so",
+    "OpenSubdiv::osdgpu": "libosdGPU.so",
+    "OpenSubdiv::osdCPU": "libosdCPU.so",
+    "OpenSubdiv::osdGPU": "libosdGPU.so",
 }
 
 _PACKAGE_HOOKS = {}
@@ -378,7 +382,11 @@ def _fixup_openusd_targets(output_folder: str) -> None:
     for target, library_name in _OPENUSD_LIBRARY_TARGETS.items():
         library = _find_library(output_folder, library_name)
         if library:
-            content = content.replace(target, library)
+            content = re.sub(
+                rf"(?<![A-Za-z0-9_]){re.escape(target)}(?![A-Za-z0-9_])",
+                lambda _: library,
+                content,
+            )
 
     with open(targets_path, "w", encoding="utf-8") as f:
         f.write(content)
