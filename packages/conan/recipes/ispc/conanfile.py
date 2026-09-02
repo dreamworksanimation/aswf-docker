@@ -122,6 +122,7 @@ class IspcConan(ConanFile):
         # they would collide with the base image's compiler symlinks when the
         # ISPC package is deployed.
         copy(self, "libclang-cpp.so.*", src=clang_lib_dir, dst=runtime_lib_dir)
+        copy(self, "libLLVM.so.*", src=clang_lib_dir, dst=runtime_lib_dir)
         copy(self, "libLLVM-*.so*", src=clang_lib_dir, dst=runtime_lib_dir)
 
     def package_id(self):
