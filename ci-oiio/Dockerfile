@@ -116,7 +116,7 @@ ENV CONAN_HOME=${ASWF_CONAN_HOME}/.conan2
 RUN --mount=type=cache,id=aswf-conan-cache,sharing=locked,target=/opt/conan_home/d \
     --mount=type=bind,rw,target=/opt/conan_home/.conan2,source=packages/conan/settings \
     conan install /usr/local \
-        -pr:a "${ASWF_CONAN_CHANNEL}" \
+        --profile:all "${ASWF_CONAN_CHANNEL}" \
         --deployer aswf_deploy \
         --deployer-folder /usr/local \
         --conf user.aswf:exclude_package="openimageio" \
